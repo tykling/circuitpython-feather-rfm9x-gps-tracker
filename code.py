@@ -5,11 +5,12 @@ import busio
 import time
 import board
 import gc
+import os
 
 voltage_pin = analogio.AnalogIn(board.D9)
 
 # load config file
-from config import LORA_CONFIG
+from config import LORA_CONFIG, GPS_CONFIG
 
 try:
     os.stat("/lora_frame_count.txt")
