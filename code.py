@@ -20,7 +20,11 @@ except OSError:
 
 def read_lora_frame_count():
     with open("/lora_frame_count.txt", "r") as f:
-        lora_frame_counter = int(f.read().strip())
+        try:
+            lora_frame_counter = int(f.read().strip())
+        except:
+            print("There was an error reading the lora_frame_counter file, setting lora_frame_count to 0")
+            lora_frame_counter = 0
         print("read /lora_frame_count.txt count is %s" % lora_frame_counter)
     return lora_frame_counter
 
