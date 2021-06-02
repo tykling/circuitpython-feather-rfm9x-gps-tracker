@@ -111,6 +111,8 @@ def get_distance(oldlon, oldlat, newlon, newlat):
 
     a = math.sin(dlat / 2)**2 + math.cos(oldlat) * math.cos(newlat) * math.sin(dlon / 2)**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    del(sys.modules["math"])
+    gc.collect()
     return R * c
 
 def get_battery_voltage():
@@ -121,7 +123,7 @@ while True:
     oldlon, oldlat = read_gps_location_from_disk()
     distance_moved = get_distance(oldlon, oldlat, lon, lat)
     v = get_battery_voltage()
-    msg = bytes("%s|%s|%s|%s" % (lon, lat, distance_moved, v), "ASCII")
+    msg = bytes('{"location":{"latitude":%s,"longitude":%s},"distance_moved": %s, "battery_voltage": %s}' % (lat, lon, distance_moved, v), ASCII)
     print("sending message %s" % msg)
     send_lora_message(msg)
     print("resetting feather to reclaim lost RAM...")
