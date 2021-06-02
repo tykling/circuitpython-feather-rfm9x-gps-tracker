@@ -73,24 +73,12 @@ def get_gps_position():
     while True:
         gps.update()
         if gps.has_fix:
-            if gps.satellites is not None:
-                print("# satellites: {}".format(gps.satellites))
-            if gps.altitude_m is not None:
-                print("Altitude: {} meters".format(gps.altitude_m))
-            if gps.speed_knots is not None:
-                print("Speed: {} knots".format(gps.speed_knots))
-            if gps.track_angle_deg is not None:
-                print("Track angle: {} degrees".format(gps.track_angle_deg))
-            if gps.horizontal_dilution is not None:
-                print("Horizontal dilution: {}".format(gps.horizontal_dilution))
-            if gps.height_geoid is not None:
-                print("Height geo ID: {} meters".format(gps.height_geoid))
             if not fix_time:
                 fix_time = time.monotonic()
             else:
                 current = time.monotonic()
                 if current - fix_time >= GPS_CONFIG["fix_time_seconds"]:
-                    # we've had fix long enough, unload gps modules and GC collect so we can fit lora modules
+                    # we've had fix long enough, unload gps module and GC.collect so we can fit lora modules
                     del(adafruit_gps)
                     del(sys.modules["adafruit_gps"])
                     gc.collect()
@@ -106,7 +94,7 @@ def get_radians(coordinate):
     return math.radians(coordinate)
 
 def get_distance(oldlon, oldlat, newlon, newlat):
-    if not all([oldlone, oldlat, newlon, newlat]):
+    if not all([oldlon, oldlat, newlon, newlat]):
         return 0
 
     # do the math
