@@ -119,13 +119,16 @@ def get_battery_voltage():
     return ((voltage_pin.value * 3.3) / 65536) * 2
 
 while True:
-    lon, lat = get_gps_position()
-    oldlon, oldlat = read_gps_location_from_disk()
-    distance_moved = get_distance(oldlon, oldlat, lon, lat)
-    v = get_battery_voltage()
-    msg = bytes('{"location":{"latitude":%.6f,"longitude":%.6f},"distance_moved": %s, "battery_voltage": %s}' % (lat, lon, distance_moved, v), "ASCII")
-    print("sending message %s" % msg)
-    send_lora_message(msg)
+    try:
+        lon, lat = get_gps_position()
+        oldlon, oldlat = read_gps_location_from_disk()
+        distance_moved = get_distance(oldlon, oldlat, lon, lat)
+        v = get_battery_voltage()
+        msg = bytes('{"location":{"latitude":%.6f,"longitude":%.6f},"distance_moved": %s, "battery_voltage": %s}' % (lat, lon, distance_moved, v), "ASCII")
+        print("sending message %s" % msg)
+        send_lora_message(msg)
+    except Exception as E:
+        print("exception %s" % E)
     print("resetting feather to reclaim lost RAM...")
     import supervisor
     supervisor.reload()
