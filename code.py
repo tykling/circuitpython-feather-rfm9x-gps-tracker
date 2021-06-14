@@ -37,7 +37,7 @@ def write_lora_frame_count(count):
 def send_lora_message(data):
     from adafruit_tinylora.adafruit_tinylora import TTN, TinyLoRa
     lora_frame_counter = read_lora_frame_count()
-    ttn_config = TTN(CONFIG["LORA"]["device_address"], CONFIG["LORA"]["network_key"], CONFIG["LORA"]["application_key"], country=CONFIG["LORA"]["country"])
+    ttn_config = TTN(CONFIG["LORA"]["DEVICE_ADDRESS"], CONFIG["LORA"]["ABP_NETWORK_SESSION_KEY"], CONFIG["LORA"]["ABP_APPLICATION_SESSION_KEY"], country=CONFIG["LORA"]["COUNTRY"])
     spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
     cs = digitalio.DigitalInOut(board.RFM9X_CS)
     irq = digitalio.DigitalInOut(board.RFM9X_D0)
