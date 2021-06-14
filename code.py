@@ -10,6 +10,7 @@ import os
 voltage_pin = analogio.AnalogIn(board.D9)
 
 from config import CONFIG
+print("imported config: %s" % CONFIG)
 
 try:
     os.stat("/lora_frame_count.txt")
